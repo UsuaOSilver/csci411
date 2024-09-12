@@ -97,7 +97,19 @@ void DFSSCC(vector<vector<shared_ptr<Node>>> A, shared_ptr<Node> v, vector<share
  * &SCCs - vector<SCCNode> - the nodes of a SCC metagraph                                                         *
  ******************************************************************************************************************/
 void DFSAssign(vector<vector<shared_ptr<Node>>> A, shared_ptr<Node> v, int scc, vector<SCCNode> &SCCs){
+    v->SCC = scc;
 
+    if (scc == SCCs.size()) {
+        SCCs.push_back({scc, 1, false, false});
+    } else {
+        SCCs[scc].size++;
+    }
+
+    for (auto& u : A[v->id]) {
+        if (u->SCC == -1) {
+            DFSAssign(A, u, scc, SCCs);
+        }
+    }
 }
 
 /******************************************************************************************************
