@@ -55,7 +55,16 @@ struct Result {
  *          with edges reversed                                                                                   *
  * ****************************************************************************************************************/
 vector<vector<shared_ptr<Node>>> reverseEdges(vector<vector<shared_ptr<Node>>> A){
-    //YOUR CODE HERE
+    vector<vector<shared_pt<Node>>> AT(A.size());
+    AT[0] = A[0];
+
+    for (int i = 1; i < A.size(); ++1) {
+        for (auto& v : A[i]) {
+            AT[v->id].push_back(A[0][i]);
+        }
+    }
+
+    return AT;
 }
 
 /********************************************************************************************************
