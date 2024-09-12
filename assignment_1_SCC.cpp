@@ -76,7 +76,14 @@ vector<vector<shared_ptr<Node>>> reverseEdges(vector<vector<shared_ptr<Node>>> A
  *      finishing time                                                                                  *
  * ******************************************************************************************************/
 void DFSSCC(vector<vector<shared_ptr<Node>>> A, shared_ptr<Node> v, vector<shared_ptr<Node>> &L){
-    //YOUR CODE HERE
+    v->visited = true;
+
+    for (auto& u : A[v->id]) {
+        if (!u->visited) {
+            DFSSCC(A, u, L);
+        }
+    }
+    L.push_back(v);
 }
 
 /******************************************************************************************************************
@@ -90,7 +97,7 @@ void DFSSCC(vector<vector<shared_ptr<Node>>> A, shared_ptr<Node> v, vector<share
  * &SCCs - vector<SCCNode> - the nodes of a SCC metagraph                                                         *
  ******************************************************************************************************************/
 void DFSAssign(vector<vector<shared_ptr<Node>>> A, shared_ptr<Node> v, int scc, vector<SCCNode> &SCCs){
-    //YOUR CODE HERE
+
 }
 
 /******************************************************************************************************
