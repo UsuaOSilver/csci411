@@ -147,7 +147,36 @@ vector<SCCNode> SCC(vector<vector<shared_ptr<Node>>> A){
  * return - Result - a Result struct holding the sizes of sets A, B, and C                      *
  * **********************************************************************************************/
 Result getSetSizes(vector<vector<shared_ptr<Node>>> A){
-    //YOUR CODE HERE
+    vector<SCCNode> sccGraph = SCC(A);
+    Result result = {0, 0, 0};
+
+    for (auto& scc : sccGraph) {
+        scc.hasInEdges = false;
+        scc.hasOutEdges = false;
+    }
+
+    for (int i = 1; i < A.size(); ++i) {
+        int u_scc = A[0][i]->SCC;
+        for (auto& v : A[i]) {
+            int v_scc = v->SCC;
+            if (u_scc != v_scc) {
+                sccGraph[u_scc].hasOutEdges = true;
+                sccGraph[v_scc].hasInEdges = true;
+            }
+        }
+    }
+
+    for (auto& scc : sccGraph) {
+        if (!scc.hasInEdges && scc.hasOutEdges) {
+            result.A += scc.size;
+        } else if (scc.hasInEdges && !scc.hasOutEdges) {
+            result.B += scc.size;
+        } else {
+            result.C += scc.size;
+        }
+    }
+
+    return result;
 }
 
 int main(){
