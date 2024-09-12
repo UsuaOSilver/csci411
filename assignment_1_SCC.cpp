@@ -55,7 +55,7 @@ struct Result {
  *          with edges reversed                                                                                   *
  * ****************************************************************************************************************/
 vector<vector<shared_ptr<Node>>> reverseEdges(vector<vector<shared_ptr<Node>>> A){
-    vector<vector<shared_pt<Node>>> AT(A.size());
+    vector<vector<shared_ptr<Node>>> AT(A.size());
     AT[0] = A[0];
 
     for (int i = 1; i < A.size(); ++1) {
@@ -119,7 +119,25 @@ void DFSAssign(vector<vector<shared_ptr<Node>>> A, shared_ptr<Node> v, int scc, 
  * return - vector<SCCNode> - a vector of nodes in the SCC metagraph of A                             *
  * ****************************************************************************************************/
 vector<SCCNode> SCC(vector<vector<shared_ptr<Node>>> A){
-    //YOUR CODE HERE
+    vector<shared_ptr<Node>> L;
+    for (auto& node : A[0]) {
+        if (!node->visited) {
+            DFSSCC(A, node, L);
+        }
+    }
+
+    vector<vector<shared_ptr<Node>>> AT = reverseEdges(A);
+    vector<SCCNode> SCCs;
+    int scc = 0;
+
+    for (auto it = L.rbegin(); it != L.rend(); ++it) {
+        if ((*it)->SCC == -1) {
+            DFSAssign(AT, *it, scc, SCCs);
+            scc++;
+        }
+    }
+
+    return SCCs;
 }
 
 /************************************************************************************************
