@@ -58,7 +58,7 @@ vector<vector<shared_ptr<Node>>> reverseEdges(vector<vector<shared_ptr<Node>>> A
     vector<vector<shared_ptr<Node>>> AT(A.size());
     AT[0] = A[0];
 
-    for (int i = 1; i < A.size(); ++1) {
+    for (int i = 1; i < A.size(); ++i) {
         for (auto& v : A[i]) {
             AT[v->id].push_back(A[0][i]);
         }
@@ -120,7 +120,8 @@ void DFSAssign(vector<vector<shared_ptr<Node>>> A, shared_ptr<Node> v, int scc, 
  * ****************************************************************************************************/
 vector<SCCNode> SCC(vector<vector<shared_ptr<Node>>> A){
     vector<shared_ptr<Node>> L;
-    for (auto& node : A[0]) {
+    for (int i = 1; i < A[0].size(); ++i) {
+        auto& node = A[0][i];
         if (!node->visited) {
             DFSSCC(A, node, L);
         }
